@@ -22,7 +22,14 @@
         </p>
       </div>
     </div>
-    <MoBanTemplate :formList="formList" :form="form" :tableList="tableList"></MoBanTemplate>
+
+    <MoBanTemplate 
+      :formList="formList" 
+      :form="form" 
+      :tableList="tableList"
+      :showTableType="1"
+    />
+
   </div>
 </template>
 
@@ -54,7 +61,6 @@ export default {
           name: form.name,
           type: form.type
         })
-        console.log(JSON.stringify(this.tableList[this.addTrIndex]))
       }
     },
     addItem() {
@@ -75,6 +81,7 @@ export default {
     },
     showForm() {
       console.log(this.form);
+      console.log(this.tableList);
     }
   }
 };
