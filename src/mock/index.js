@@ -16,7 +16,8 @@ export default {
   { 
     "name": "姓名", 
     "required": true, 
-    "type": "Input" 
+    "type": "Input",
+    "value": '阿发'
   }, 
   { 
     "type": "Datepicker", 

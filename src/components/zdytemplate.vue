@@ -62,7 +62,7 @@ export default {
     return {};
   },
   mounted() {
-    console.log(this.showTableType);
+    console.log(this.form);
   },
   components: {
     EllInput,

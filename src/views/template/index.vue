@@ -25,9 +25,21 @@ export default {
   components: {
     MoBanTemplate
   },
+  mounted() {
+    this.list.forEach(item => {
+      if(item.value) {
+        this.$set(this.form,item.name,item.value)
+      } 
+    })
+  },
   methods: {
     showForm() {
-      console.log(this.form)
+      this.list.forEach(item => {
+        if(this.form[item.name]) {
+          item.value = this.form[item.name]
+        }
+      })
+      console.log(this.list)
       console.log(this.tableList)
     },
     addTableRow(item) {
