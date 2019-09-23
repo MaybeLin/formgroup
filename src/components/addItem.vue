@@ -4,20 +4,20 @@
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="字段名称">
           <el-input v-model="form.name"></el-input>
-          <el-checkbox v-model="form.required">是否必填</el-checkbox>
+          <el-checkbox v-model="form.required" v-if="type === 1">是否必填</el-checkbox>
         </el-form-item>
         <el-form-item label="字段类型">
           <el-radio-group v-model="form.type">
             <el-radio v-for="item in formList" :label="item.type">{{item.name}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="单选选择" v-if="form.type === 'Radio'">
+        <el-form-item label="单选选择" v-if="form.type === 'Radio' && type === 1">
           <div v-for="item in radioList">
             <el-input  v-model="item.name" />
           </div>
           <el-button @click="pushRadio">添加一个</el-button>
         </el-form-item>
-        <el-form-item label="展示类型">
+        <el-form-item label="展示类型" v-if="type === 1">
           <el-radio v-model="form.showType" label="half">半行</el-radio>
           <el-radio v-model="form.showType" label="line">整行</el-radio>
         </el-form-item>
@@ -37,6 +37,10 @@ export default {
     showDialog: {
       type: Boolean,
       default: false
+    },
+    type: {
+      type: Number,
+      default: 1
     }
   },
   watch: {
@@ -80,7 +84,7 @@ export default {
       if(form.type === 'Radio') form.radioList = this.radioList
       this.dialogaddItemVisible = false;
       this.$emit("update:showDialog", false);
-      this.$emit("addItemForm", form);
+      this.$emit("addItemForm", form, this.type);
     },
     pushRadio() {
       this.radioList.push({
