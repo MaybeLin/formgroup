@@ -17,6 +17,12 @@
           </div>
           <el-button @click="pushRadio">添加一个</el-button>
         </el-form-item>
+        <el-form-item label="添加选项" v-if="form.type === 'CheckBox' && type === 1">
+          <div v-for="item in checkList">
+            <el-input  v-model="item.name" />
+          </div>
+          <el-button @click="pushCheck">添加一个</el-button>
+        </el-form-item>
         <el-form-item label="展示类型" v-if="type === 1">
           <el-radio v-model="form.showType" label="half">半行</el-radio>
           <el-radio v-model="form.showType" label="line">整行</el-radio>
@@ -56,12 +62,13 @@ export default {
       dialogaddItemVisible: true,
       form: {},
       radioList: [{name: ''}],
+      checkList: [{name: ''}],
       formList: [{
         name: '单选框',
         type: 'Radio'
       },{
         name: '多选框',
-        type: 'checkbox'
+        type: 'CheckBox'
       },{
         name: '文字输入框',
         type: 'Input'
@@ -82,12 +89,19 @@ export default {
     saveForm() {
       const form = this.form;
       if(form.type === 'Radio') form.radioList = this.radioList
+      if(form.type === 'CheckBox') form.checkList = this.checkList
+
       this.dialogaddItemVisible = false;
       this.$emit("update:showDialog", false);
       this.$emit("addItemForm", form, this.type);
     },
     pushRadio() {
       this.radioList.push({
+        name: ''
+      })
+    },
+    pushCheck() {
+      this.checkList.push({
         name: ''
       })
     }

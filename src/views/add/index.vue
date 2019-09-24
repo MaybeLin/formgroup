@@ -55,6 +55,10 @@ export default {
   methods: {
     addItemForm(form,type) {
       if(type === 1) {
+        if(form.type === "CheckBox") {
+          this.$set(this.form,form.name,[])
+          // this.form[form.name] = []
+        }
         this.formList.push(form);
       } else {
         this.tableList[this.addTrIndex].list.push({

@@ -37,6 +37,7 @@
 import EllInput from "./input.vue";
 import EllDatepicker from "./datepicker.vue";
 import EllRadio from "./radio";
+import EllCheckBox from "./checkbox.vue";
 export default {
   props: {
     formList: {
@@ -67,7 +68,8 @@ export default {
   components: {
     EllInput,
     EllDatepicker,
-    EllRadio
+    EllRadio,
+    EllCheckBox
   },
 
   computed: {
