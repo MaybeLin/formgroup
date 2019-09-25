@@ -159,11 +159,10 @@ export default {
           return;
         }
         form.keys = +new Date() + Math.floor(Math.random() * 10000);
-        const indexList = this.modelList[this.addModelIndex].list
-        
+        const indexList = JSON.parse(JSON.stringify(this.modelList[this.addModelIndex].list))
         indexList.push(form)
-        const newList = JSON.parse(JSON.stringify(indexList))
-        this.$set(this.modelList[this.addModelIndex], 'list' ,newList)
+        // const newList = JSON.parse(JSON.stringify(indexList))
+        this.$set(this.modelList[this.addModelIndex], 'list' ,indexList)
       }
     },
     //添加字段
@@ -228,10 +227,12 @@ export default {
     },
     //删除某个表单
     delform(item) {
+      console.log(item)
       this.formList.splice(
         this.formList.findIndex(items => items.keys === item.keys),
         1
       );
+      console.log(this.modelList)
     },
     //添加竞品
     addModel() {
