@@ -84,10 +84,10 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item class="clearfix">
-                <span @click="edit(item)">编辑</span>
+                <span @click="editModelForm(item,modelFormIndex)">编辑</span>
               </el-dropdown-item>
               <el-dropdown-item class="clearfix">
-                <span @click="delform(item)">删除</span>
+                <span @click="delModelForm(item,modelFormIndex)">删除</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -128,12 +128,18 @@ export default {
       default: () => []
     },
     indexTable: {
+      //当前编辑删除表格下标
       type: Number,
       default: 0
     },
     modelFormList: {
       type: Array,
       default: () => []
+    },
+    modelFormIndex: {
+      //当前编辑删除模版下标
+      type: Number,
+      default: 0
     },
     disabled: {
       type: Boolean,
@@ -184,6 +190,14 @@ export default {
     deltr(item, indexTable) {
       //删除表格某列
       this.$emit("delTr", item, indexTable);
+    },
+    editModelForm(item, modelFormIndex) {
+      //编辑模版中的某个字段
+      this.$emit("editModelForm", item, modelFormIndex);
+    },
+    delModelForm(item, modelFormIndex) {
+      //删除模版中的某个字段
+      this.$emit("delModelForm", item, modelFormIndex);
     }
   },
   watch: {
