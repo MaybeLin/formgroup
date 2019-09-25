@@ -136,8 +136,10 @@ export default {
           return;
         }
         form.keys = +new Date() + Math.floor(Math.random() * 10000);
-        this.modelList[this.addModelIndex].list.push(form);
-        console.log(this.modelList)
+        const indexList = this.modelList[this.addModelIndex].list
+        indexList.push(form)
+        const newList = JSON.parse(JSON.stringify(indexList))
+        this.$set(this.modelList[this.addModelIndex], 'list' ,newList)
       }
     },
     //添加字段
@@ -208,7 +210,6 @@ export default {
       form.keys = +new Date() + Math.floor(Math.random() * 10000);
       form.list = [];
       this.modelList.push(form);
-      console.log(this.modelList)
     },
     //编辑竞品
     editModel(item, index) {
