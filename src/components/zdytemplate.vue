@@ -30,7 +30,23 @@
     <!-- 表格 -->
     <div class="table-list" v-if="showTableType === 1&&formType===2">
       <!-- <div v-for="item in tableList"> -->
-        <span v-for="items in tableList">{{items.name}}&nbsp;&nbsp;&nbsp;</span>
+      <span v-for="item in tableList">
+        {{item.name}}
+        <el-dropdown trigger="click">
+          <span class="el-dropdown-link">
+            <i class="el-icon-caret-bottom el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item class="clearfix">
+              <span @click="editTr(item,indexTable)">编辑</span>
+            </el-dropdown-item>
+            <el-dropdown-item class="clearfix">
+              <span @click="deltr(item,indexTable)">删除</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>&nbsp;&nbsp;&nbsp;
+      </span>
+
       <!-- </div> -->
     </div>
     <div class="table-list" v-if="showTableType === 2">
@@ -111,6 +127,10 @@ export default {
       type: Array,
       default: () => []
     },
+    indexTable: {
+      type: Number,
+      default: 0
+    },
     modelFormList: {
       type: Array,
       default: () => []
@@ -156,11 +176,19 @@ export default {
     delform(item) {
       //删除表单
       this.$emit("delform", item);
+    },
+    editTr(item, indexTable) {
+      //编辑表格某咧
+      this.$emit("editTr", item, indexTable);
+    },
+    deltr(item, indexTable) {
+      //删除表格某列
+      this.$emit("delTr", item, indexTable);
     }
   },
-  watch:{
-    modelFormList(){
-      console.log(1)
+  watch: {
+    modelFormList() {
+      console.log(1);
     }
   }
 };

@@ -35,10 +35,13 @@
         </p>
         <MoBanTemplate
           :tableList="item.list"
+          :indexTable="index"
           :showTableType="1"
           :disabled="true"
           :formType="2"
           @edit="edit"
+          @editTr="editTr"
+          @delTr="delTr"
           @delform="delform"
         />
       </div>
@@ -88,9 +91,10 @@ export default {
       modelFormList: [], //模版表单列表
       form: {},
       editForm: {},
-      modelIndexForm: {}, //模版编辑
-      isEdit: false,//编辑某个字段
-      isEditModel: false //编辑模版否
+      modelIndexForm: {}, //当前模版编辑
+      isEdit: false, //编辑某个字段
+      isEditModel: false, //编辑模版否
+      tableIndex: "" //当前表格编辑
     };
   },
 
@@ -102,7 +106,8 @@ export default {
 
   methods: {
     addItemForm(form, type) {
-      if (type === 1) {//基础表单
+      if (type === 1) {
+        //基础表单
         if (form.type === "CheckBox") {
           this.$set(this.form, form.name, []);
         }
@@ -117,17 +122,35 @@ export default {
         }
         form.keys = +new Date() + Math.floor(Math.random() * 10000);
         this.formList.push(form);
-      } else if (type === 2) {//表格
+      } else if (type === 2) {
+        //表格
+        if (this.isEdit) {
+          console.log(this.tableList)
+          console.log(this)
+          for (let i = 0; i < this.tableList[this.tableIndex].list.length; i++) {
+            if (this.tableList[this.tableIndex].list[i].keys === form.keys) {
+              this.$set(this.tableList[this.tableIndex].list, i, form);
+              break;
+            }
+          }
+          return;
+        }
         this.tableList[this.addTrIndex].list.push({
           name: form.name,
-          type: form.type
+          type: form.type,
+          keys: +new Date() + Math.floor(Math.random() * 10000)
         });
-      } else if (type === 3) {//模版表单
+      } else if (type === 3) {
+        //模版表单
         if (form.type === "CheckBox") {
           this.$set(this.form, form.name, []);
         }
         if (this.isEdit) {
-          for (let i = 0; i < this.modelList[this.addModelIndex].list.length; i++) {
+          for (
+            let i = 0;
+            i < this.modelList[this.addModelIndex].list.length;
+            i++
+          ) {
             if (this.modelList[this.addModelIndex].list[i].keys === form.keys) {
               this.$set(this.modelList[this.addModelIndex].list, i, form);
               break;
@@ -136,10 +159,7 @@ export default {
           return;
         }
         form.keys = +new Date() + Math.floor(Math.random() * 10000);
-        const indexList = this.modelList[this.addModelIndex].list
-        indexList.push(form)
-        const newList = JSON.parse(JSON.stringify(indexList))
-        this.$set(this.modelList[this.addModelIndex], 'list' ,newList)
+        this.modelList[this.addModelIndex].list.push(form);
       }
     },
     //添加字段
@@ -165,6 +185,23 @@ export default {
       this.isEdit = false;
       this.editForm = {};
       this.addTrIndex = index;
+    },
+    //编辑一列
+    editTr(item, indexTable) {
+      this.saveIndexEditForm = item;
+      this.editForm = JSON.parse(JSON.stringify(item));
+      this.isEdit = true;
+      this.showAddItemDialog = true;
+      this.tableIndex = indexTable;
+    },
+    //删除一列
+    delTr(item, indexTable) {
+      this.tableList[indexTable].list.splice(
+        this.tableList[indexTable].list.findIndex(
+          items => items.keys === item.keys
+        ),
+        1
+      );
     },
     //删除表格
     delTable(item, index) {
@@ -210,6 +247,7 @@ export default {
       form.keys = +new Date() + Math.floor(Math.random() * 10000);
       form.list = [];
       this.modelList.push(form);
+      console.log(this.modelList);
     },
     //编辑竞品
     editModel(item, index) {
