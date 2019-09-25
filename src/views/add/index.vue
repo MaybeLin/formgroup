@@ -161,7 +161,6 @@ export default {
               break;
             }
           }
-          console.log(this.modelList);
           return;
         }
         this.modelList[this.addModelIndex].list.push(JSON.parse(JSON.stringify({
