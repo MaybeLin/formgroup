@@ -159,7 +159,11 @@ export default {
           return;
         }
         form.keys = +new Date() + Math.floor(Math.random() * 10000);
-        this.modelList[this.addModelIndex].list.push(form);
+        const indexList = this.modelList[this.addModelIndex].list
+        
+        indexList.push(form)
+        const newList = JSON.parse(JSON.stringify(indexList))
+        this.$set(this.modelList[this.addModelIndex], 'list' ,newList)
       }
     },
     //添加字段
