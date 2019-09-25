@@ -39,7 +39,6 @@
           :showTableType="1"
           :disabled="true"
           :formType="2"
-          @edit="edit"
           @editTr="editTr"
           @delTr="delTr"
           @delform="delform"
@@ -59,11 +58,12 @@
       </div>
       <MoBanTemplate
         :modelFormList="item.list"
+        :modelFormIndex="index"
         :form="form"
         :disabled="true"
         :formType="3"
-        @edit="edit"
-        @delform="delform"
+        @editModelForm="editModelForm"
+        @delModelForm="delModelForm"
       />
     </div>
     <AddModelDaiLog
@@ -94,7 +94,8 @@ export default {
       modelIndexForm: {}, //当前模版编辑
       isEdit: false, //编辑某个字段
       isEditModel: false, //编辑模版否
-      tableIndex: "" //当前表格编辑
+      tableIndex: "", //当前表格编辑
+      modelFormIndex: "" //当前模版字段编辑
     };
   },
 
@@ -125,9 +126,11 @@ export default {
       } else if (type === 2) {
         //表格
         if (this.isEdit) {
-          console.log(this.tableList)
-          console.log(this)
-          for (let i = 0; i < this.tableList[this.tableIndex].list.length; i++) {
+          for (
+            let i = 0;
+            i < this.tableList[this.tableIndex].list.length;
+            i++
+          ) {
             if (this.tableList[this.tableIndex].list[i].keys === form.keys) {
               this.$set(this.tableList[this.tableIndex].list, i, form);
               break;
@@ -148,11 +151,13 @@ export default {
         if (this.isEdit) {
           for (
             let i = 0;
-            i < this.modelList[this.addModelIndex].list.length;
+            i < this.modelList[this.modelFormIndex].list.length;
             i++
           ) {
-            if (this.modelList[this.addModelIndex].list[i].keys === form.keys) {
-              this.$set(this.modelList[this.addModelIndex].list, i, form);
+            if (
+              this.modelList[this.modelFormIndex].list[i].keys === form.keys
+            ) {
+              this.$set(this.modelList[this.modelFormIndex].list, i, form);
               break;
             }
           }
@@ -267,6 +272,28 @@ export default {
       this.editForm = {};
       this.addItemType = 3;
       this.addModelIndex = index;
+    },
+    //编辑模版字段
+    editModelForm(item, modelFormIndex) {
+      this.saveIndexEditForm = item;
+      this.editForm = JSON.parse(JSON.stringify(item));
+      this.isEdit = true;
+      this.showAddItemDialog = true;
+      this.modelFormIndex = modelFormIndex;
+    },
+    //删除模版某个字段
+    delModelForm(item, modelFormIndex) {
+      this.modelList[modelFormIndex].list.splice(
+        this.modelList[modelFormIndex].list.findIndex(
+          items => items.keys === item.keys
+        ),
+        1
+      );
+      let newList = JSON.parse(
+        JSON.stringify(this.modelList[modelFormIndex].list)
+      );
+      console.log(newList);
+      this.$set(this.modelList[modelFormIndex], "list", newList);
     },
     //删除模版
     delModel(item, index) {
