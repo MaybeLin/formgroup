@@ -1,12 +1,11 @@
 <template>
   <div>
-    <el-input v-model="form[post]" :disabled="disabled"></el-input>
+    <el-input-number v-model="form[post]" :disabled="disabled" :min="1" :max="1000" controls-position="right" label></el-input-number>
   </div>
 </template>
 
 <script>
 export default {
-  name: "EllInput",
   props: {
     form: {
       type: Object,
@@ -27,5 +26,3 @@ export default {
   }
 };
 </script>
-<style lang='scss' scoped>
-</style>

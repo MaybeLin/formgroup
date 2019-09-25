@@ -1,21 +1,17 @@
 <template>
   <div>
-    <el-date-picker
-      v-model="form[post]"
-      type="date"
-      placeholder="选择日期">
-    </el-date-picker>
+    <el-date-picker v-model="form[post]" type="date" placeholder="选择日期" :disabled="disabled"></el-date-picker>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'EllDatePicker',
+  name: "EllDatePicker",
   props: {
     form: {
       type: Object,
       default: () => {
-        return {}
+        return {};
       }
     },
     post: {
@@ -23,10 +19,13 @@ export default {
     },
     name: {
       type: String
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   }
-}
-
+};
 </script>
 <style lang='scss' scoped>
 </style>

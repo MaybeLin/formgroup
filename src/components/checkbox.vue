@@ -1,7 +1,12 @@
 <template>
   <div>
     <el-checkbox-group v-model="form[post]">
-      <el-checkbox v-for="(item,index) in pitem.checkList" :key="index" :label="item.name" />
+      <el-checkbox
+        v-for="(item,index) in pitem.checkList"
+        :key="index"
+        :label="item.name"
+        :disabled="disabled"
+      />
     </el-checkbox-group>
   </div>
 </template>
@@ -27,12 +32,11 @@ export default {
     },
     name: {
       type: String
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
-  },
-  data() {
-    return {
-      checkList: ["选中且禁用", "复选框 A"]
-    };
   }
 };
 </script>
