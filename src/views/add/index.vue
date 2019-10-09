@@ -161,15 +161,16 @@ export default {
               break;
             }
           }
+          console.log(this.modelList);
           return;
         }
-        this.modelList[this.addModelIndex].list.push(JSON.parse(JSON.stringify({
+        const indexList = this.modelList[0].list;
+        this.modelList[this.addModelIndex].list.push({
           name: form.name,
           type: form.type,
           keys: +new Date() + Math.floor(Math.random() * 10000)
-        })));
-        // const indexList = this.modelList[this.addModelIndex].list;
-        // indexList.push(form);
+        });
+        console.log(this.modelList);
         // const newList = JSON.parse(JSON.stringify(indexList));
         // this.$set(this.modelList[this.addModelIndex], "list", newList);
       }
@@ -243,6 +244,7 @@ export default {
     },
     //添加竞品
     addModel() {
+      // this.modelList.push({name:"hahah",type:"lalal",list:[]});
       this.showAddModelDialog = true;
       this.isEditModel = false;
     },
@@ -256,10 +258,11 @@ export default {
         }
         return;
       }
-      form.keys = +new Date() + Math.floor(Math.random() * 10000);
-      form.list = [];
-      this.modelList.push(form);
-      console.log(this.modelList);
+      this.modelList.push({
+        keys: +new Date() + Math.floor(Math.random() * 10000),
+        list: [],
+        modelName: form.modelName
+      });
     },
     //编辑竞品
     editModel(item, index) {
@@ -287,15 +290,10 @@ export default {
     delModelForm(item, modelFormIndex) {
       this.modelList[modelFormIndex].list.splice(
         this.modelList[modelFormIndex].list.findIndex(
-          items => items.keys === item.keys
+          items => items.name === item.name
         ),
         1
       );
-      let newList = JSON.parse(
-        JSON.stringify(this.modelList[modelFormIndex].list)
-      );
-      console.log(newList);
-      this.$set(this.modelList[modelFormIndex], "list", newList);
     },
     //删除模版
     delModel(item, index) {
