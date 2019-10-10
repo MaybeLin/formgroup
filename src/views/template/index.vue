@@ -4,6 +4,7 @@
     :formList="list" 
     :form="form" 
     :tableList="tableList" 
+    :showTableType='2'
     @addTableRow="addTableRow"
   />
   <el-button @click="showForm">提交</el-button>

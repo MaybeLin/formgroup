@@ -3,6 +3,7 @@ export default {
     "name": "性别", 
     "required": true, 
     "type": "Radio", 
+    "showType":"line",
     "radioList": [
       { 
         "name": "男" 
@@ -17,11 +18,13 @@ export default {
     "name": "姓名", 
     "required": true, 
     "type": "Input",
+    "showType":"half",
     "value": '阿发'
   }, 
   { 
     "type": "Datepicker", 
     "name": "日期", 
+    "showType":"line",
     "required": true 
   }],
   table: [

@@ -1,7 +1,15 @@
 <template>
   <div>
     <!-- 基础信息表单 -->
-    <el-form class="form" ref="form" :model="form" label-width="80px" :rules="rules" v-if="formType===1">
+    <el-form
+      label-position="top"
+      class="form"
+      ref="form"
+      :model="form"
+      label-width="80px"
+      :rules="rules"
+      v-if="formType===1"
+    >
       <div v-for="item in formList" :style="{width:item.showType === 'line' ? '100%' : '50%'}">
         <el-form-item :label="item.name" :prop="item.name">
           <component
@@ -10,10 +18,11 @@
             :pitem="item"
             :post="item.name"
             :disabled="disabled"
+            class="el-form-cont"
           />
-          <el-dropdown trigger="click">
+          <el-dropdown trigger="hover" v-if="showTableType === 1">
             <span class="el-dropdown-link">
-              <i class="el-icon-caret-bottom el-icon--right"></i>
+              <i class="el-icon-more el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item class="clearfix">
@@ -28,7 +37,7 @@
       </div>
     </el-form>
     <!-- 表格 -->
-    <div class="table-list" v-if="showTableType === 1&&formType===2">
+    <div class="table-list" v-if="showTableType === 1 && formType === 2">
       <!-- <div v-for="item in tableList"> -->
       <span v-for="item in tableList">
         {{item.name}}
@@ -78,7 +87,7 @@
             :post="item.name"
             :disabled="disabled"
           />
-          <el-dropdown trigger="click">
+          <el-dropdown trigger="hover" v-if="showTableType === 1">
             <span class="el-dropdown-link">
               <i class="el-icon-caret-bottom el-icon--right"></i>
             </span>
@@ -106,6 +115,7 @@ import EllInputnumber from "./inputnumber.vue";
 export default {
   props: {
     formType: {
+      //类型 1基础字段  2表格  3表单
       type: Number,
       default: 1
     },
@@ -120,6 +130,7 @@ export default {
       }
     },
     showTableType: {
+      //1新增 2展示
       type: Number,
       default: 2
     },
@@ -208,7 +219,19 @@ export default {
 };
 </script>
 <style scoped>
-.form>div{
+.form {
+  overflow: auto;
+}
+.form > div {
   float: left;
+}
+.el-form-item__content {
+  display: flex !important;
+}
+.el-form-cont {
+  flex: 1;
+}
+.el-dropdown {
+  width: 20px;
 }
 </style>
