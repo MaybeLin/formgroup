@@ -122,6 +122,7 @@ export default {
           return;
         }
         form.keys = +new Date() + Math.floor(Math.random() * 10000);
+        console.log(form);
         this.formList.push(form);
       } else if (type === 2) {
         //表格
@@ -164,7 +165,6 @@ export default {
           console.log(this.modelList);
           return;
         }
-<<<<<<< HEAD
         const indexList = this.modelList[0].list;
         this.modelList[this.addModelIndex].list.push({
           name: form.name,
@@ -174,13 +174,6 @@ export default {
         console.log(this.modelList);
         // const newList = JSON.parse(JSON.stringify(indexList));
         // this.$set(this.modelList[this.addModelIndex], "list", newList);
-=======
-        form.keys = +new Date() + Math.floor(Math.random() * 10000);
-        const indexList = JSON.parse(JSON.stringify(this.modelList[this.addModelIndex].list))
-        indexList.push(form)
-        // const newList = JSON.parse(JSON.stringify(indexList))
-        this.$set(this.modelList[this.addModelIndex], 'list' ,indexList)
->>>>>>> 08d2c2e1b51e210b4b3aa965396e360536418060
       }
     },
     //添加字段

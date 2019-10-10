@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- 基础信息表单 -->
-    <el-form ref="form" :model="form" label-width="80px" :rules="rules" v-if="formType===1">
-      <div v-for="item in formList">
+    <el-form class="form" ref="form" :model="form" label-width="80px" :rules="rules" v-if="formType===1">
+      <div v-for="item in formList" :style="{width:item.showType === 'line' ? '100%' : '50%'}">
         <el-form-item :label="item.name" :prop="item.name">
           <component
             :is="'Ell' + item.type"
@@ -207,5 +207,8 @@ export default {
   }
 };
 </script>
-<style lang='scss' scoped>
+<style scoped>
+.form>div{
+  float: left;
+}
 </style>
