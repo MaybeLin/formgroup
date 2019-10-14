@@ -1,4 +1,5 @@
 <template>
+  <!-- 多选框 -->
   <div>
     <el-checkbox-group v-model="form[post]">
       <el-checkbox

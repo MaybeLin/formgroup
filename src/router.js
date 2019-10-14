@@ -17,6 +17,10 @@ export default new Router({
       path: '/showTemplate',
       name: 'showTemplate',
       component: () => import(/* webpackChunkName: "about" */ './views/template/index.vue')
+    } , {
+      path: '/addQuestionnaire',
+      name: 'addQuestionnaire',
+      component: () => import(/* webpackChunkName: "about" */ './views/addQuestionnaire/index.vue')
     } 
   ]
 })

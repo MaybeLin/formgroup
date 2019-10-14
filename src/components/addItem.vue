@@ -1,4 +1,5 @@
 <template>
+  <!-- 字段新增 -->
   <div class="add-item" v-if="showDialog">
     <el-dialog title="添加字段" :visible.sync="dialogaddItemVisible" @close="close">
       <el-form ref="formData" :model="form" label-width="80px" :rules="rules">

@@ -1,6 +1,14 @@
 <template>
+  <!-- 数字输入框 -->
   <div>
-    <el-input-number v-model="form[post]" :disabled="disabled" :min="1" :max="1000" controls-position="right" label></el-input-number>
+    <el-input-number
+      v-model="form[post]"
+      :disabled="disabled"
+      :min="1"
+      :max="1000"
+      controls-position="right"
+      label
+    ></el-input-number>
   </div>
 </template>
 

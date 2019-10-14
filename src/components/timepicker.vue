@@ -1,13 +1,13 @@
 <template>
-  <!-- 输入框 -->
+  <!-- 时间选择 -->
   <div>
-    <el-input v-model="form[post]" :disabled="disabled"></el-input>
+    <el-date-picker v-model="form[post]" type="date" placeholder="选择时间" :disabled="disabled"></el-date-picker>
   </div>
 </template>
 
 <script>
 export default {
-  name: "EllInput",
+  name: "EllTimePicker",
   props: {
     form: {
       type: Object,

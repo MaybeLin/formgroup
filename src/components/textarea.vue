@@ -1,13 +1,13 @@
 <template>
-  <!-- 输入框 -->
+  <!-- 文本框 -->
   <div>
-    <el-input v-model="form[post]" :disabled="disabled"></el-input>
+    <el-input type="textarea" v-model="form[post]" :disabled="disabled"></el-input>
   </div>
 </template>
 
 <script>
 export default {
-  name: "EllInput",
+  name: "EllTextarea",
   props: {
     form: {
       type: Object,

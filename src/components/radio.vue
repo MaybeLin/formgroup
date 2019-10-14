@@ -1,4 +1,5 @@
 <template>
+  <!-- 单选 -->
   <div>
     <el-radio-group v-model="form[post]">
       <el-radio
