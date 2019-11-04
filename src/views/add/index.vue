@@ -162,7 +162,6 @@ export default {
               break;
             }
           }
-          console.log(this.modelList);
           return;
         }
         const indexList = this.modelList[0].list;

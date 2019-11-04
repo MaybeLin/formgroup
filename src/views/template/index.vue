@@ -32,6 +32,8 @@ export default {
         this.$set(this.form,item.name,item.value)
       } 
     })
+    console.log(this.form)
+    console.log(this.list)
   },
   methods: {
     showForm() {

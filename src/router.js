@@ -21,6 +21,10 @@ export default new Router({
       path: '/addQuestionnaire',
       name: 'addQuestionnaire',
       component: () => import(/* webpackChunkName: "about" */ './views/addQuestionnaire/index.vue')
+    } , {
+      path: '/questionnaireSurvey',
+      name: 'questionnaireSurvey',
+      component: () => import(/* webpackChunkName: "about" */ './views/questionnaireSurvey/index.vue')
     } 
   ]
 })
