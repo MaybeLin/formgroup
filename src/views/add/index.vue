@@ -8,6 +8,7 @@
     <div @click="addItem">添加一个字段</div>
     <div @click="addTable">添加一个表格</div>
     <div @click="addModel">添加一个竞品</div>
+    <div @click="addUploadImg">添加图片</div>
     <!-- 基本表单 -->
     <AddItemDaiLog
       :type="addItemType"
@@ -66,6 +67,20 @@
         @delModelForm="delModelForm"
       />
     </div>
+
+    <!-- 图片 -->
+    <div class="upload-img-list">
+      <div v-for="(item,index) in uploadImgList" :key="item.keys">
+        <p>
+          {{item.name}}
+          <i @click="editUploadImg(item,index)" class="el-icon-edit"></i>
+          <i @click="delUploadImg(item,index)" class="el-icon-delete"></i>
+        </p>
+        <el-button size="small" type="primary" disabled>
+          <i class="el-icon-upload el-icon--left"></i>点击上传
+        </el-button>
+      </div>
+    </div>
     <AddModelDaiLog
       :showModelDialog="showAddModelDialog"
       :defaultForm="modelIndexForm"
@@ -82,12 +97,13 @@ import MoBanTemplate from "../../components/zdytemplate.vue";
 export default {
   data() {
     return {
-      addItemType: 1, //1 添加表单 2添加表格一列
+      addItemType: 1, //1 添加表单 2添加表格一列 4表格
       showAddItemDialog: false,
       showAddModelDialog: false,
       formList: [],
       tableList: [],
       modelList: [], //模版列表
+      uploadImgList: [], //上传图片
       modelFormList: [], //模版表单列表
       form: {},
       editForm: {},
@@ -164,15 +180,25 @@ export default {
           }
           return;
         }
-        const indexList = this.modelList[0].list;
         this.modelList[this.addModelIndex].list.push({
           name: form.name,
           type: form.type,
           keys: +new Date() + Math.floor(Math.random() * 10000)
         });
-        console.log(this.modelList);
-        // const newList = JSON.parse(JSON.stringify(indexList));
-        // this.$set(this.modelList[this.addModelIndex], "list", newList);
+      } else if (type === 4) {//图片
+        if (this.isEdit) {
+          for (let i = 0; i < this.uploadImgList.length; i++) {
+            if (this.uploadImgList[i].keys === form.keys) {
+              this.$set(this.uploadImgList, i, form);
+              break;
+            }
+          }
+          return;
+        }
+        form.keys = +new Date() + Math.floor(Math.random() * 10000);
+        form.type = "Img";
+        form.value = [];
+        this.uploadImgList.push(form);
       }
     },
     //添加字段
@@ -182,6 +208,19 @@ export default {
       this.editForm = {};
       this.addItemType = 1;
     },
+    //编辑字段
+    edit(item) {
+      this.editForm = JSON.parse(JSON.stringify(item));
+      this.isEdit = true;
+      this.showAddItemDialog = true;
+    },
+     //删除某个字段
+    delform(item) {
+      this.formList.splice(
+        this.formList.findIndex(items => items.keys === item.keys),
+        1
+      );
+    },
     //添加表格
     addTable() {
       const len = this.tableList.length + 1;
@@ -190,6 +229,13 @@ export default {
         list: [],
         keys: +new Date() + Math.floor(Math.random() * 10000)
       });
+    },
+    //删除表格
+    delTable(item) {
+      this.tableList.splice(
+        this.tableList.findIndex(items => items.name === item.name),
+        1
+      );
     },
     //添加一列
     addTr(item, index) {
@@ -201,7 +247,6 @@ export default {
     },
     //编辑一列
     editTr(item, indexTable) {
-      this.saveIndexEditForm = item;
       this.editForm = JSON.parse(JSON.stringify(item));
       this.isEdit = true;
       this.showAddItemDialog = true;
@@ -216,37 +261,13 @@ export default {
         1
       );
     },
-    //删除表格
-    delTable(item, index) {
-      this.tableList.splice(
-        this.tableList.findIndex(items => items.name === item.name),
-        1
-      );
-    },
     showForm() {
       console.log(this.formList);
       console.log(this.tableList);
       console.log(this.modelList);
     },
-    //编辑字段
-    edit(item) {
-      this.saveIndexEditForm = item;
-      this.editForm = JSON.parse(JSON.stringify(item));
-      this.isEdit = true;
-      this.showAddItemDialog = true;
-    },
-    //删除某个表单
-    delform(item) {
-      console.log(item)
-      this.formList.splice(
-        this.formList.findIndex(items => items.keys === item.keys),
-        1
-      );
-      console.log(this.modelList)
-    },
-    //添加竞品
+    //添加模版
     addModel() {
-      // this.modelList.push({name:"hahah",type:"lalal",list:[]});
       this.showAddModelDialog = true;
       this.isEditModel = false;
     },
@@ -266,11 +287,18 @@ export default {
         modelName: form.modelName
       });
     },
-    //编辑竞品
-    editModel(item, index) {
+    //编辑模版
+    editModel(item) {
       this.showAddModelDialog = true;
       this.modelIndexForm = JSON.parse(JSON.stringify(item));
       this.isEditModel = true;
+    },
+    //删除模版
+    delModel(item) {
+      this.modelList.splice(
+        this.modelList.findIndex(items => items.keys === item.keys),
+        1
+      );
     },
     //添加模版字段
     addModelItem(item, index) {
@@ -282,7 +310,6 @@ export default {
     },
     //编辑模版字段
     editModelForm(item, modelFormIndex) {
-      this.saveIndexEditForm = item;
       this.editForm = JSON.parse(JSON.stringify(item));
       this.isEdit = true;
       this.showAddItemDialog = true;
@@ -297,12 +324,22 @@ export default {
         1
       );
     },
-    //删除模版
-    delModel(item, index) {
-      this.modelList.splice(
-        this.modelList.findIndex(items => items.keys === item.keys),
-        1
-      );
+    //添加图片
+    addUploadImg() {
+      this.showAddItemDialog = true;
+      this.isEdit = false;
+      this.editForm = {};
+      this.addItemType = 4;
+    },
+    //编辑图片
+    editUploadImg(item) {
+      this.editForm = JSON.parse(JSON.stringify(item));
+      this.isEdit = true;
+      this.showAddItemDialog = true;
+    },
+    //删除图片
+    delUploadImg(item, index) {
+      this.uploadImgList.splice(index, 1);
     }
   }
 };

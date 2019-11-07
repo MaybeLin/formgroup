@@ -11,7 +11,7 @@
       :rules="rules"
       v-if="formType===1"
     >
-      <div v-for="item in formList" :style="{width:item.showType === 'line' ? '100%' : '50%'}">
+      <div v-for="(item,index) in formList" :key="index" :style="{width:item.showType === 'line' ? '100%' : '50%'}">
         <el-form-item :label="item.name" :prop="item.name">
           <component
             :is="'Ell' + item.type"
@@ -40,7 +40,7 @@
     <!-- 表格 -->
     <div class="table-list" v-if="showTableType === 1 && formType === 2">
       <!-- <div v-for="item in tableList"> -->
-      <span v-for="item in tableList">
+      <span v-for="(item,index) in tableList" :key="index">
         {{item.name}}
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
@@ -60,7 +60,7 @@
       <!-- </div> -->
     </div>
     <div class="table-list" v-if="showTableType === 2">
-      <div v-for="item in tableList">
+      <div v-for="(item,index) in tableList" :key="index">
         <h1>表格名称：{{item.name}}</h1>
         <el-button @click="addTableRow(item)">添加数据</el-button>
         <el-table :data="item.row" border>
@@ -79,7 +79,7 @@
     </div>
     <!-- 模版表单 -->
     <el-form ref="form" :model="form" label-width="80px" :rules="rules" v-if="formType===3">
-      <div v-for="item in modelFormList">
+      <div v-for="(item,index) in modelFormList" :key="index">
         <el-form-item :label="item.name" :prop="item.name">
           <component
             :is="'Ell' + item.type"
@@ -104,6 +104,13 @@
         </el-form-item>
       </div>
     </el-form>
+    <!-- 图片 -->
+    <div class="upload-img-list">
+      <div v-for="(item,index) in uploadImgList" :key="item.keys">
+        <p>{{item.name}}</p>
+        <FileUpload :fileArray="item.value" @input="getNewList" :index="index"></FileUpload>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -113,6 +120,7 @@ import EllDatepicker from "./datepicker.vue";
 import EllRadio from "./radio";
 import EllCheckBox from "./checkbox.vue";
 import EllInputnumber from "./inputnumber.vue";
+import FileUpload from "./fileUpload";
 export default {
   props: {
     formType: {
@@ -148,6 +156,11 @@ export default {
       type: Array,
       default: () => []
     },
+    uploadImgList: {
+      //上传图片列表
+      type: Array,
+      default: () => []
+    },
     modelFormIndex: {
       //当前编辑删除模版下标
       type: Number,
@@ -168,7 +181,8 @@ export default {
     EllDatepicker,
     EllRadio,
     EllCheckBox,
-    EllInputnumber
+    EllInputnumber,
+    FileUpload
   },
 
   computed: {
@@ -210,6 +224,10 @@ export default {
     delModelForm(item, modelFormIndex) {
       //删除模版中的某个字段
       this.$emit("delModelForm", item, modelFormIndex);
+    },
+    getNewList(fileList, index) {
+      this.uploadImgList[index].value = fileList;
+      console.log(fileList);
     }
   },
   watch: {

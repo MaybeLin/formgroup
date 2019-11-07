@@ -7,7 +7,7 @@
           <el-input v-model="form.name"></el-input>
           <el-checkbox v-model="form.required">是否必填</el-checkbox>
         </el-form-item>
-        <el-form-item label="字段类型" prop="type">
+        <el-form-item label="字段类型" prop="type" v-if="type !== 4">
           <el-radio-group v-model="form.type" @change="typeChange">
             <el-radio v-for="item in formList" :label="item.type" :disabled="isEdit">{{item.name}}</el-radio>
           </el-radio-group>
@@ -28,7 +28,7 @@
           </div>
           <el-button @click="pushCheck">添加选项</el-button>
         </el-form-item>
-        <el-form-item label="展示类型" v-if="type === 1">
+        <el-form-item label="展示类型" v-if="type === 1||type ===4">
           <el-radio v-model="form.showType" label="half" :disabled="isEdit">半行</el-radio>
           <el-radio v-model="form.showType" label="line" :disabled="isEdit">整行</el-radio>
         </el-form-item>
@@ -51,7 +51,7 @@ export default {
     },
     type: {
       type: Number,
-      default: 1 //1表单 2表格 3模版
+      default: 1 //1表单 2表格 3模版 4表格
     },
     editForm: {
       type: Object,
